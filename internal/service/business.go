@@ -34,5 +34,16 @@ func (s *BusinessService) ReplyReview(ctx context.Context, req *pb.ReplyReviewRe
 
 // AppealReview 申诉评价
 func (s *BusinessService) AppealReview(ctx context.Context, req *pb.AppealReviewRequest) (*pb.AppealReviewReply, error) {
-	return &pb.AppealReviewReply{}, nil
+	appealID, err := s.uc.AppealReview(ctx, &biz.AppealParam{
+		ReviewID:  req.GetReviewID(),
+		StoreID:   req.GetStoreID(),
+		Reason:    req.GetReason(),
+		Content:   req.GetContent(),
+		PicInfo:   req.GetPicInfo(),
+		VideoInfo: req.GetVideoInfo(),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.AppealReviewReply{AppealID: appealID}, nil
 }

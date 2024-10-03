@@ -30,12 +30,24 @@ func (b businessRepo) CreateReply(ctx context.Context, param *biz.ReplyParam) (i
 		VideoInfo: param.VideoInfo,
 	})
 	if err != nil {
-		b.log.Errorf("data business CreateReply failed, err:%v \n", err)
+		b.log.Warnf("data business CreateReply failed, err:%v \n", err)
 		return 0, err
 	}
 	return reply.ReplyID, nil
 }
 
 func (b businessRepo) CreateAppeal(ctx context.Context, param *biz.AppealParam) (int64, error) {
-	return 0, nil
+	appeal, err := b.data.rc.AppealReview(ctx, &v1.AppealReviewRequest{
+		ReviewID:  param.ReviewID,
+		StoreID:   param.StoreID,
+		Reason:    param.Reason,
+		Content:   param.Content,
+		PicInfo:   param.PicInfo,
+		VideoInfo: param.VideoInfo,
+	})
+	if err != nil {
+		b.log.Warnf("data business CreateAppeal failed, err:%v \n", err)
+		return 0, err
+	}
+	return appeal.GetAppealID(), nil
 }

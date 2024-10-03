@@ -28,3 +28,10 @@ func (uc *BusinessUsecase) ReplyReview(ctx context.Context, param *ReplyParam) (
 	uc.log.WithContext(ctx).Infof("ReplyReview - reviewID: %v", param.ReviewID)
 	return uc.repo.CreateReply(ctx, param)
 }
+
+// AppealReview 申诉评价
+func (uc *BusinessUsecase) AppealReview(ctx context.Context, param *AppealParam) (int64, error) {
+	//log
+	uc.log.WithContext(ctx).Infof("AppealReview - reviewID: %v", param.ReviewID)
+	return uc.repo.CreateAppeal(ctx, param)
+}
